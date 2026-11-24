@@ -1,0 +1,48 @@
+<div class="app-page-header">
+  <div><h1>Mục tiêu – Hũ chi tiêu</h1><p class="page-description">Theo dõi số tiền đã dành và phần còn thiếu cho từng dự định.</p></div>
+  <button class="button app-primary" id="goal-add" type="button">Tạo hũ chi tiêu</button>
+</div>
+<p id="goals-state" role="status">Đang tải hũ chi tiêu…</p>
+<button class="button" id="goals-retry" type="button" hidden>Thử lại</button>
+<section class="app-card goal-empty" id="goals-empty" hidden>
+  <%- include('../partials/app/empty-state',{icon:'target',title:'Chưa có hũ chi tiêu',description:'Đặt số tiền mục tiêu cho một dự định của bạn.',compact:true}) %>
+  <button class="button app-primary" id="goal-first" type="button">Tạo hũ đầu tiên</button>
+</section>
+<ul class="goal-list goal-cards" id="goals-items" aria-label="Các hũ chi tiêu"></ul>
+<dialog class="finance-dialog goal-dialog" id="goal-dialog" aria-labelledby="goal-title">
+  <h2 id="goal-title">Tạo hũ chi tiêu</h2>
+  <form class="finance-stack" id="goal-form">
+    <fieldset class="finance-fields" id="goal-details">
+      <label>Tên hũ<input name="name" required maxlength="100"></label>
+      <label>Số tiền mục tiêu (VND)<input name="targetAmount" inputmode="numeric" required data-money></label>
+      <fieldset class="goal-date" aria-describedby="goal-date-hint">
+        <legend>Ngày dự kiến hoàn thành (tùy chọn)</legend>
+        <div class="goal-date-fields">
+          <div><label for="goal-day">Ngày</label><select id="goal-day" name="day">
+            <option value="">Chọn</option>
+            <% for (let day = 1; day <= 31; day++) { %><option value="<%= String(day).padStart(2,'0') %>"><%= day %></option><% } %>
+          </select></div>
+          <div><label for="goal-month">Tháng</label><select id="goal-month" name="month">
+            <option value="">Chọn</option>
+            <% for (let month = 1; month <= 12; month++) { %><option value="<%= String(month).padStart(2,'0') %>"><%= month %></option><% } %>
+          </select></div>
+          <div><label for="goal-year">Năm</label><select id="goal-year" name="year" data-year data-min="1000"></select></div>
+        </div>
+        <div class="goal-date-footer"><small id="goal-date-hint">Chọn đủ ngày, tháng và năm hoặc để trống.</small><button class="button" id="goal-date-clear" type="button" hidden>Xóa ngày</button></div>
+      </fieldset>
+      <label class="goal-note-field">Ghi chú (tùy chọn)<textarea name="note" rows="3" maxlength="500"></textarea></label>
+    </fieldset>
+    <fieldset class="finance-fields goal-savings-fields" id="goal-savings" hidden disabled>
+      <p id="goal-savings-name"></p>
+      <label>Số tiền thêm (VND)<input name="amount" inputmode="numeric" required data-money></label>
+      <dl class="goal-card-values goal-savings-totals">
+        <div><dt>Đã dành hiện tại</dt><dd id="goal-saved-current"></dd></div>
+        <div><dt>Dự kiến sau khi thêm</dt><dd id="goal-saved-next"></dd></div>
+      </dl>
+    </fieldset>
+    <p id="goal-delete-text" hidden></p>
+    <p class="finance-error" id="goal-error" role="alert" hidden></p>
+    <div class="finance-actions"><button class="button app-primary" type="submit">Lưu hũ chi tiêu</button><button class="button" type="button" id="goal-cancel">Hủy</button></div>
+  </form>
+</dialog>
+<script type="module" src="/js/goals.js"></script>

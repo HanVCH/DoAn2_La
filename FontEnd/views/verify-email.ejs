@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <title>Xác thực email · LÁ</title>
+  <%- include('partials/head') %>
+  <meta name="robots" content="noindex,nofollow">
+</head>
+<body>
+  <div class="page-shell">
+    <main class="information-page">
+      <% if (verified) { %>
+        <h1>Email đã xác thực</h1>
+        <p>Quay lại LÁ để tiếp tục hoàn tất hồ sơ.</p>
+      <% } else if (token) { %>
+        <h1>Xác thực email</h1>
+        <p>Bấm nút bên dưới để xác thực địa chỉ email cho tài khoản LÁ.</p>
+        <form method="post" action="/onboarding/verify-email">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <input type="hidden" name="token" value="<%= token %>">
+          <button class="button primary-button" type="submit">Xác thực email</button>
+        </form>
+      <% } else { %>
+        <h1>Không thể xác thực email</h1>
+        <p role="alert"><%= typeof message === 'string' ? message : 'Liên kết không hợp lệ. Hãy yêu cầu liên kết mới.' %></p>
+      <% } %>
+      <% if (!token) { %><a class="button login-button" href="/onboarding">Quay lại LÁ</a><% } %>
+    </main>
+  </div>
+</body>
+</html>

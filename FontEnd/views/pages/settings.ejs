@@ -1,0 +1,91 @@
+<div class="app-page-header"><div><h1>Cài đặt</h1><p class="page-description">Quản lý danh mục, cách xem thu chi và tài khoản của bạn.</p></div></div>
+<p id="settings-state" role="status">Đang tải cài đặt…</p>
+<button id="settings-retry" class="button" type="button" hidden>Thử lại</button>
+<div id="settings-content" class="finance-stack" hidden>
+  <section class="app-card settings-panel" aria-labelledby="settings-categories-title">
+    <div class="settings-heading">
+      <h2 id="settings-categories-title">Danh mục Thu/Chi</h2>
+      <div class="finance-actions"><button id="category-defaults" class="button" type="button">Thêm danh mục mặc định</button><button id="category-add" class="button app-primary" type="button">Thêm danh mục</button></div>
+    </div>
+    <p class="settings-hint">Danh mục đã ẩn vẫn có trong lịch sử, bộ lọc và báo cáo.</p>
+    <p id="category-status" role="status" hidden></p>
+    <div class="settings-category-groups">
+      <div><h3>Thu</h3><ul id="settings-income" class="finance-list"></ul><p id="settings-income-empty" class="settings-hint" hidden>Chưa có danh mục thu.</p></div>
+      <div><h3>Chi</h3><ul id="settings-expense" class="finance-list"></ul><p id="settings-expense-empty" class="settings-hint" hidden>Chưa có danh mục chi.</p></div>
+    </div>
+  </section>
+
+  <section class="app-card settings-panel" aria-labelledby="settings-display-title">
+    <h2 id="settings-display-title">Hiển thị và chu kỳ tài chính</h2>
+    <form id="settings-preferences-form" class="finance-stack">
+      <div class="finance-fields">
+        <label>Đơn vị tiền tệ<select name="currency" aria-describedby="settings-currency-help"><option value="VND">VND · Đồng Việt Nam</option><option value="USD" disabled>USD · Cần nguồn tỷ giá</option></select></label>
+        <label>Định dạng số<select name="numberStyle"><option value="dots">1.234.567</option><option value="commas">1,234,567</option></select></label>
+        <label>Ngày bắt đầu chu kỳ tháng<select name="cycleStartDay"><% for(let day=1;day<=31;day++){ %><option value="<%= day %>">Ngày <%= day %></option><% } %></select></label>
+      </div>
+      <p id="settings-currency-help" class="settings-hint">LÁ hiện lưu và hiển thị VND. USD sẽ khả dụng khi có nguồn tỷ giá quy đổi.</p>
+      <div class="settings-preview"><p><strong>Số tiền hiển thị</strong> <output id="settings-number-preview"></output></p><p><strong>Kỳ chứa ngày hôm nay</strong> <output id="settings-cycle-preview"></output></p></div>
+      <p class="settings-hint">Chu kỳ dùng cho Tổng quan, Báo cáo và bộ lọc Giao dịch. Ngân sách tiếp tục theo tháng lịch.</p>
+      <p class="settings-message" role="status" hidden></p>
+      <div><button class="button app-primary" type="submit">Lưu tùy chọn</button></div>
+    </form>
+  </section>
+
+  <section class="app-card settings-panel settings-profile" id="settings-profile" aria-labelledby="settings-profile-title">
+    <h2 id="settings-profile-title">Hồ sơ cá nhân</h2>
+    <form id="settings-profile-form" class="finance-stack" novalidate>
+      <%- include('../partials/profile-fields') %>
+      <p class="settings-message" role="status" hidden></p>
+      <div><button class="button app-primary" type="submit">Lưu hồ sơ</button></div>
+    </form>
+  </section>
+
+  <div class="settings-category-groups">
+    <section class="app-card settings-panel" aria-labelledby="settings-password-title">
+      <h2 id="settings-password-title">Đổi mật khẩu</h2>
+      <form id="settings-password-form" class="finance-stack">
+        <div class="finance-fields settings-password-fields">
+          <label>Mật khẩu hiện tại<input name="currentPassword" type="password" autocomplete="current-password" required></label>
+          <label>Mật khẩu mới<input name="password" type="password" autocomplete="new-password" required></label>
+          <label>Xác nhận mật khẩu mới<input name="confirmPassword" type="password" autocomplete="new-password" required></label>
+        </div>
+        <p class="settings-hint">Sau khi đổi mật khẩu, bạn cần đăng nhập lại trên các thiết bị.</p>
+        <p class="settings-message" role="status" hidden></p>
+        <div><button class="button app-primary" type="submit">Đổi mật khẩu</button></div>
+      </form>
+    </section>
+    <section class="app-card settings-panel" aria-labelledby="settings-data-title">
+      <h2 id="settings-data-title">Dữ liệu và sao lưu</h2>
+      <p class="settings-hint">Tải bản sao JSON của hồ sơ, cài đặt và dữ liệu tài chính của bạn.</p>
+      <div class="finance-actions"><a href="/api/settings/backup" download class="button">Tải bản sao JSON</a><button id="settings-reset" class="button" type="button">Khôi phục mặc định</button></div>
+    </section>
+  </div>
+</div>
+
+<dialog id="settings-category-dialog" class="finance-dialog" aria-labelledby="settings-category-title">
+  <h2 id="settings-category-title">Thêm danh mục</h2>
+  <form class="finance-stack">
+    <div class="finance-fields">
+      <label>Tên danh mục<input name="name" required maxlength="80"></label>
+      <label>Nhóm<select name="kind"><option value="expense">Chi</option><option value="income">Thu</option></select></label>
+      <label>Biểu tượng<select name="icon"><option value="">Theo danh mục</option><% for(const [key,label] of Object.entries(categoryIcons)){ %><option value="<%= key %>"><%= label %></option><% } %></select></label>
+      <label>Màu danh mục<input name="color" type="color" value="#39664d"></label>
+    </div>
+    <div id="settings-category-preview" class="settings-preview" aria-hidden="true"></div>
+    <label class="settings-check"><input name="defaultColor" type="checkbox" checked>Dùng màu mặc định</label>
+    <label class="settings-check"><input name="hidden" type="checkbox">Ẩn khỏi danh sách chọn giao dịch mới</label>
+    <p class="settings-message" role="status" hidden></p>
+    <div class="finance-actions"><button class="button app-primary" type="submit">Lưu danh mục</button><button class="button" type="button" data-close>Hủy</button></div>
+  </form>
+</dialog>
+<dialog id="settings-reset-dialog" class="finance-dialog" aria-labelledby="settings-reset-title">
+  <h2 id="settings-reset-title">Khôi phục cài đặt mặc định?</h2>
+  <form class="finance-stack">
+    <p>Các mục được đặt lại</p>
+    <ul class="settings-reset-list"><li>Hiển thị VND với dấu chấm phân cách hàng nghìn.</li><li>Chu kỳ tháng bắt đầu ngày 1.</li><li>Tên, màu, icon và trạng thái ẩn của danh mục mặc định.</li></ul>
+    <p>Danh mục cá nhân, hồ sơ và dữ liệu tài chính được giữ lại.</p>
+    <p class="settings-message" role="status" hidden></p>
+    <div class="finance-actions"><button class="button app-primary" type="submit">Xác nhận khôi phục</button><button class="button" type="button" data-close>Hủy</button></div>
+  </form>
+</dialog>
+<script type="module" src="/js/settings.js"></script>

@@ -1,0 +1,127 @@
+<header class="tx-page-header">
+  <div><h1>Giao dịch</h1><p>Theo dõi các khoản thu và chi của bạn.</p></div>
+  <div class="tx-header-actions">
+    <button class="button app-primary" type="button" id="tx-add"><span class="tx-add-icon" aria-hidden="true">+</span>Thêm giao dịch</button>
+    <button class="button tx-secondary" type="button" id="tx-options">Quản lý ví và danh mục</button>
+  </div>
+</header>
+<section class="app-card tx-panel" aria-labelledby="tx-title">
+  <form id="tx-filter">
+    <div class="tx-toolbar">
+      <label class="tx-search">
+        <span class="tx-sr-only">Tìm trong ghi chú</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"></circle><path d="m15 15 4.5 4.5"></path></svg>
+        <input name="q" type="search" placeholder="Tìm trong ghi chú" maxlength="500">
+      </label>
+      <button class="button" type="submit" aria-label="Áp dụng bộ lọc">Tìm</button>
+      <button class="button tx-filter-button" type="button" id="tx-filter-toggle" aria-controls="tx-advanced" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 7h16M7 12h10m-7 5h4"></path></svg>
+        Bộ lọc <span id="tx-filter-count" hidden></span>
+      </button>
+      <button class="button tx-secondary" type="reset" id="tx-filter-reset" hidden>Xóa bộ lọc</button>
+    </div>
+    <div class="tx-advanced" id="tx-advanced" hidden>
+      <div class="finance-fields">
+      <label>Từ ngày<input name="from" type="text" data-date placeholder="dd/mm/yy"></label>
+      <label>Đến ngày<input name="to" type="text" data-date placeholder="dd/mm/yy"></label>
+      <label class="tx-cycle-option"><input name="period" type="checkbox" value="current">Dùng kỳ tài chính hiện tại</label>
+      <label>Loại<select name="kind"><option value="">Tất cả</option><option value="income">Thu</option><option value="expense">Chi</option></select></label>
+      <div class="tx-category-field">
+        <label for="tx-filter-category">Danh mục</label>
+        <div class="tx-category-select"><span data-category-preview hidden></span><select id="tx-filter-category" name="categoryId"></select></div>
+        <button class="tx-create-category" type="button" id="tx-filter-new-category">+ Tạo danh mục</button>
+      </div>
+      <label>Ví<select name="walletId"></select></label>
+      <label>Từ số tiền<input name="min" inputmode="numeric" placeholder="VND" data-money></label>
+      <label>Đến số tiền<input name="max" inputmode="numeric" placeholder="VND" data-money></label>
+      </div>
+      <button class="button app-primary" type="submit" id="tx-apply-advanced">Lọc kết quả</button>
+    </div>
+    <div class="tx-list-header">
+      <div><h2 id="tx-title">Lịch sử giao dịch</h2><span id="tx-count"></span></div>
+      <div class="tx-view-controls">
+        <label><span>Trạng thái</span><select name="deleted"><option value="">Đang ghi nhận</option><option value="1">Đã xóa</option></select></label>
+        <label><span>Sắp xếp</span><select name="sort"><option value="newest">Mới nhất trước</option><option value="oldest">Cũ nhất trước</option><option value="amountAsc">Số tiền tăng dần</option><option value="amountDesc">Số tiền giảm dần</option></select></label>
+      </div>
+    </div>
+  </form>
+  <p class="tx-feedback" role="status" id="tx-notice" hidden></p>
+  <p class="tx-feedback" id="tx-cycle-note" hidden></p>
+  <p class="tx-feedback" role="alert" id="tx-error" hidden></p>
+  <p class="tx-empty" role="status" id="tx-state">Đang tải giao dịch…</p>
+  <ul class="tx-items" id="tx-items"></ul>
+  <nav class="tx-pagination" id="tx-pagination" aria-label="Phân trang giao dịch" hidden>
+    <button class="button" type="button" id="tx-prev">Trang trước</button>
+    <span id="tx-page"></span>
+    <button class="button" type="button" id="tx-next">Trang sau</button>
+  </nav>
+</section>
+
+<dialog class="finance-dialog tx-dialog tx-editor" id="tx-editor" aria-labelledby="tx-editor-title">
+  <h2 id="tx-editor-title">Thêm giao dịch</h2>
+  <form id="tx-form" novalidate>
+    <fieldset class="tx-kind">
+      <legend class="tx-sr-only">Loại giao dịch</legend>
+      <label><input type="radio" name="kind" value="expense" checked><span>Khoản chi</span></label>
+      <label><input type="radio" name="kind" value="income"><span>Khoản thu</span></label>
+    </fieldset>
+    <div class="finance-fields tx-form-fields">
+      <label class="tx-field-wide tx-amount-field">
+        <span>Số tiền <span class="tx-sr-only">VND</span></span>
+        <span class="tx-amount-input"><input name="amount" inputmode="numeric" placeholder="0" required aria-describedby="tx-field-amount" data-money><span aria-hidden="true">VND</span></span>
+        <small id="tx-field-amount" class="finance-error" hidden></small>
+      </label>
+      <div class="tx-category-field">
+        <label for="tx-editor-category">Danh mục</label>
+        <div class="tx-category-select"><span data-category-preview hidden></span><select id="tx-editor-category" name="categoryId" required aria-describedby="tx-field-categoryId"></select></div>
+        <small id="tx-field-categoryId" class="finance-error" hidden></small>
+        <button class="tx-create-category" type="button" id="tx-editor-new-category">+ Tạo danh mục</button>
+      </div>
+      <label>Ví<select name="walletId" required aria-describedby="tx-field-walletId"></select><small id="tx-field-walletId" class="finance-error" hidden></small></label>
+      <label class="tx-field-wide">Ngày giao dịch<input name="date" type="text" data-date placeholder="dd/mm/yy" required aria-describedby="tx-field-date"><small id="tx-field-date" class="finance-error" hidden></small></label>
+      <label class="tx-field-wide"><span>Ghi chú <span class="tx-optional">tùy chọn</span></span><textarea name="note" maxlength="500" rows="2" placeholder="Ví dụ: Ăn trưa" aria-describedby="tx-field-note"></textarea><small id="tx-field-note" class="finance-error" hidden></small></label>
+    </div>
+    <p class="finance-error tx-form-error" role="alert" hidden></p>
+    <div class="tx-dialog-footer"><button class="button tx-secondary" type="button" data-close>Hủy</button><button class="button app-primary" type="submit">Lưu giao dịch</button></div>
+  </form>
+</dialog>
+<dialog class="finance-dialog tx-dialog" id="tx-detail" aria-labelledby="tx-detail-title">
+  <h2 id="tx-detail-title">Chi tiết giao dịch</h2>
+  <div class="finance-stack" id="tx-detail-data" aria-live="polite"></div>
+  <div class="tx-dialog-footer"><button class="button tx-secondary" type="button" data-close>Đóng</button><button class="button" type="button" id="tx-edit" hidden>Sửa</button><button class="button tx-danger" type="button" id="tx-delete" hidden>Xóa</button></div>
+</dialog>
+<dialog class="finance-dialog tx-dialog" id="tx-confirm" aria-labelledby="tx-confirm-title">
+  <h2 id="tx-confirm-title">Xác nhận xóa</h2>
+  <p id="tx-delete-description"></p>
+  <form id="tx-delete-form" class="finance-stack">
+    <p class="finance-error" role="alert" hidden></p>
+    <div class="tx-dialog-footer"><button class="button tx-secondary" type="button" data-close autofocus>Hủy</button><button class="button tx-danger tx-danger-primary" type="submit">Xóa giao dịch</button></div>
+  </form>
+</dialog>
+<dialog class="finance-dialog tx-dialog" id="tx-reference" aria-labelledby="tx-reference-title">
+  <h2 id="tx-reference-title">Ví và danh mục</h2>
+  <p>Tạo ví và danh mục để phân loại giao dịch.</p>
+  <form id="tx-reference-form" class="finance-stack">
+    <div class="finance-fields">
+      <label>Tạo<select name="resource"><option value="wallet">Ví</option><option value="category">Danh mục</option></select></label>
+      <label id="tx-reference-kind" hidden>Loại danh mục<select name="kind"><option value="expense">Chi</option><option value="income">Thu</option></select></label>
+      <label>Tên<input name="name" required maxlength="80"></label>
+    </div>
+    <%- include('../partials/app/category-icon-picker',{initiallyHidden:true}) %>
+    <p class="finance-error" role="alert" hidden></p>
+    <div class="finance-actions"><button class="button app-primary" type="submit">Tạo mới</button><button class="button" type="button" id="tx-starter">Tạo ví và danh mục mặc định</button><button class="button" type="button" data-close>Đóng</button></div>
+  </form>
+</dialog>
+<dialog class="finance-dialog tx-dialog" id="tx-category-dialog" aria-labelledby="tx-category-title">
+  <h2 id="tx-category-title">Tạo danh mục</h2>
+  <form id="tx-category-form" class="finance-stack">
+    <div class="finance-fields">
+      <label>Tên danh mục<input name="name" maxlength="80" required autofocus></label>
+      <label>Loại danh mục<select name="kind"><option value="expense">Khoản chi</option><option value="income">Khoản thu</option></select></label>
+    </div>
+    <%- include('../partials/app/category-icon-picker') %>
+    <p class="finance-error" role="alert" hidden></p>
+    <div class="tx-dialog-footer"><button class="button tx-secondary" type="button" data-close>Hủy</button><button class="button app-primary" type="submit">Tạo danh mục</button></div>
+  </form>
+</dialog>
+<script type="module" src="/js/transactions.js"></script>

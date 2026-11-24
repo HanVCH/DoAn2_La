@@ -1,0 +1,61 @@
+.setup-shell { max-width: 1440px; }
+.setup-layout { display: grid; grid-template-columns: 340px minmax(0, 690px); gap: clamp(36px,7vw,100px); max-width: 1160px; margin: 64px auto 0; align-items: start; }
+.eyebrow { color: var(--text-secondary); font-size: 10px; font-weight: 600; letter-spacing: 2px; }
+.setup-intro { position: sticky; top: 32px; padding: 24px 8px; }
+.setup-intro h1 { margin: 18px 0; font-size: 45px; line-height: 1.25; letter-spacing: -1.6px; }
+.setup-intro > p { color: var(--text-secondary); font-size: 15px; line-height: 1.8; }
+.setup-steps { list-style: none; padding: 0; margin: 36px 0; display: grid; gap: 24px; }
+.setup-steps li { display: flex; align-items: center; gap: 14px; font-size: 13px; font-weight: 600; }
+.setup-steps li > span,.step-number { display: grid; place-items: center; flex: 0 0 34px; height: 34px; border: 1px solid var(--border-color); border-radius: 50%; color: var(--text-secondary); font-size: 12px; }
+.setup-steps small { display: block; margin-top: 4px; color: var(--text-secondary); font-size: 11px; font-weight: 400; }
+.setup-steps li[data-complete=true] > span { color: white; background: var(--button-primary); border-color: var(--button-primary); }
+.setup-leaf { width: 122px; height: 122px; margin: 28px 0; border-radius: 50%; background: #e5eddc; display: grid; place-items: center; }
+.setup-leaf svg { width: 64px; height: 64px; color: #618c64; }
+.setup-intro > .privacy-note { font-size: 11px; max-width: 270px; }
+.text-button { border: none; background: transparent; padding: 14px 0; color: var(--button-primary); font: inherit; font-size: 12px; text-decoration: underline; }
+.setup-description { font-size: 13px; line-height: 1.8; color: var(--text-secondary); margin-bottom: 24px; }
+.setup-card { background: #fff; border: 1px solid var(--border-color); border-radius: 22px; padding: 30px; margin-bottom: 22px; }
+.section-heading { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 26px; }
+.step-number { background: #f1f5eb; border: none; border-radius: 10px; color: var(--button-primary); }
+.section-heading h2,.home-profile h2 { font-size: 18px; margin: 0 0 5px; }
+.section-heading p { font-size: 11px; color: var(--text-secondary); line-height: 1.6; }
+.profile-grid { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); column-gap: 18px; row-gap: 20px; }
+.profile-grid .field-group { margin: 0; min-width: 0; }
+.profile-grid .wide { grid-column: 1 / -1; }
+.setup-content .input-wrapper { background: #fbfcf9; }
+.setup-content input,.setup-content select { width: 100%; min-width: 0; font: inherit; font-size: 12px; color: var(--text-primary); border: 0; background: transparent; height: 46px; padding: 0 14px; outline-offset: 0; }
+.input-suffix { padding-right: 16px; font-size: 13px; color: var(--text-secondary); }
+.setup-content .field-group label,#otp-form > label { font-size: 12px; }
+.setup-content .field-hint { line-height: 1.7; }
+.save-button { width: auto; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; margin-top: 22px; padding: 10px 22px; border: 1px solid #c8d9c5; border-radius: 11px; background: #edf3e8; color: var(--button-primary); font-size: 12px; font-weight: 600; }
+.saved-note { margin-top: 10px; color: var(--button-primary); font-size: 11px; }
+.contact-options { border: 0; display: grid; gap: 12px; margin: 0; padding: 0; }
+.contact-option { display: flex; align-items: center; gap: 10px; border: 1px solid var(--border-color); padding: 16px; border-radius: 12px; cursor: pointer; }
+.contact-option:has(input:checked) { border-color: #7d9f79; background: #f6f9f1; }
+.contact-option > input { width: 16px; height: 16px; padding: 0; flex: 0 0 auto; accent-color: var(--button-primary); }
+.contact-option > span:nth-child(2) { min-width: 0; flex: 1; }
+.contact-option strong { font-size: 12px; display: block; }
+.contact-value { display: block; font-size: 11px; color: var(--text-secondary); overflow-wrap: anywhere; margin-top: 4px; }
+.contact-option small { display: block; font-size: 10px; color: var(--text-secondary); margin-top: 3px; }
+.verification-badge { font-size: 9px; border-radius: 20px; background: #f1f2ed; color: #757c70; padding: 5px 8px; white-space: nowrap; }
+.verification-badge[data-verified=true] { background: #e3efdc; color: #3b6842; }
+#verification-help { margin-top: 14px; }
+#otp-form { margin-top: 22px; }
+.otp-row { display: flex; gap: 12px; align-items: stretch; margin-top: 8px; }
+.otp-row .input-wrapper { flex: 1; min-width: 0; }
+.otp-row .save-button { margin: 0; }
+#otp { font-size: 22px; letter-spacing: 6px; }
+.finish-section { padding: 4px 0 20px; }
+.finish-section p { font-size: 11px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 16px; }
+.finish-section .primary-button { justify-content: space-between; padding: 0 24px; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.home-content { max-width: 760px; margin: 80px auto; }
+.home-content h1 { font-size: 38px; line-height: 1.4; margin: 18px 0; }
+.home-profile { margin-top: 30px; }
+.home-profile dl { display: grid; gap: 18px; margin-top: 24px; }
+.home-profile dl > div { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: 13px; }
+.home-profile dt { color: var(--text-secondary); }
+.home-profile dd { overflow-wrap: anywhere; }
+@media(max-width:1000px) { .setup-layout { grid-template-columns: 260px minmax(0,1fr); gap: 28px; } .setup-intro h1 { font-size: 36px; } .setup-card { padding: 24px; } }
+@media(max-width:760px) { .setup-layout { display: block; margin-top: 32px; } .setup-intro { position: static; padding: 0; } .setup-intro h1 { font-size: 34px; } .setup-intro h1 br { display: none; } .setup-intro > p br { display: none; } .setup-steps,.setup-leaf,.setup-intro .privacy-note { display: none; } .setup-intro .text-button { margin: 8px 0 18px; } .setup-card { padding: 22px 18px; border-radius: 18px; } .home-content { margin: 48px auto; } .home-content h1 { font-size: 28px; } }
+@media(max-width:440px) { .profile-grid { grid-template-columns: minmax(0,1fr); } .contact-option { gap: 8px; padding: 12px; } .verification-badge { font-size: 8px; padding: 5px; } .otp-row .save-button { padding: 10px 14px; } }

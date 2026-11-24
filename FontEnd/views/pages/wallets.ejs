@@ -1,0 +1,98 @@
+<div class="app-page-header">
+  <div><h1>Ví của tôi</h1><p class="page-description">Theo dõi tiền và dư nợ bạn tự ghi nhận trong LÁ.</p></div>
+  <button class="button app-primary" id="wallet-add" type="button">Thêm ví</button>
+</div>
+<p id="wallet-state" role="status">Đang tải ví…</p>
+<button class="button" id="wallet-retry" type="button" hidden>Thử lại</button>
+<div class="wallet-totals" id="wallet-totals" hidden>
+  <article class="app-card"><h2>Tiền trong các ví</h2><strong id="wallet-assets"></strong></article>
+  <article class="app-card"><h2>Dư nợ</h2><strong id="wallet-debt"></strong></article>
+  <article class="app-card"><h2>Tiền còn lại sau khi trừ nợ thẻ</h2><strong id="wallet-net"></strong></article>
+</div>
+<div class="finance-actions wallet-tools" hidden id="wallet-tools">
+  <button class="button" id="wallet-transfer" type="button">Chuyển tiền giữa ví</button>
+  <button class="button" id="wallet-payment" type="button">Thanh toán thẻ</button>
+</div>
+<section class="app-card" id="wallet-empty" hidden>
+  <%- include('../partials/app/empty-state',{icon:'wallet',title:'Chưa có ví đang hoạt động',description:'Thêm ví để bắt đầu theo dõi số dư.',compact:true}) %>
+</section>
+<ul class="goal-list wallet-cards" id="wallet-items" aria-label="Ví đang hoạt động"></ul>
+<details id="wallet-archive-section" hidden>
+  <summary>Ví đã lưu trữ <span id="wallet-archive-count"></span></summary>
+  <ul class="goal-list wallet-cards" id="wallet-archived" aria-label="Ví đã lưu trữ"></ul>
+</details>
+
+<dialog class="finance-dialog wallet-dialog" id="wallet-editor" aria-labelledby="wallet-editor-title">
+  <h2 id="wallet-editor-title">Thêm ví</h2>
+  <form class="finance-stack">
+    <div class="finance-fields">
+      <label>Tên ví<input name="name" required maxlength="80"></label>
+      <label>Loại ví<select name="kind"><option value="cash">Tiền mặt</option><option value="bank">Tài khoản ngân hàng</option><option value="ewallet">Ví điện tử</option><option value="credit">Thẻ tín dụng</option></select></label>
+      <label><span id="wallet-opening-label">Số dư ban đầu (VND)</span><input name="openingAmount" inputmode="numeric" required value="0" data-money></label>
+      <label data-credit-only hidden>Hạn mức tín dụng (VND)<input name="creditLimit" inputmode="numeric" disabled required data-money></label>
+      <label data-credit-only hidden>Ngày đến hạn thanh toán<input name="paymentDue" type="text" data-date placeholder="dd/mm/yy" min="1000-01-01" max="9999-12-31" disabled></label>
+      <label class="wallet-wide">Ghi chú (tùy chọn)<textarea name="note" rows="2" maxlength="500"></textarea></label>
+    </div>
+    <p role="alert" class="finance-error" hidden></p>
+    <div class="finance-actions"><button class="button app-primary" type="submit">Lưu ví</button><button class="button" type="button" data-close>Hủy</button></div>
+  </form>
+</dialog>
+
+<dialog class="finance-dialog wallet-dialog" id="wallet-adjust" aria-labelledby="wallet-adjust-title">
+  <h2 id="wallet-adjust-title">Điều chỉnh số dư</h2>
+  <form class="finance-stack">
+    <p id="wallet-adjust-current"></p>
+    <div class="finance-fields">
+      <label class="wallet-wide"><span id="wallet-actual-label">Số dư thực tế (VND)</span><input name="actual" inputmode="numeric" required data-money></label>
+      <label class="wallet-wide">Lý do điều chỉnh<textarea name="reason" maxlength="500" required rows="2"></textarea></label>
+    </div>
+    <p role="alert" class="finance-error" hidden></p>
+    <div class="finance-actions"><button class="button app-primary" type="submit">Lưu điều chỉnh</button><button class="button" type="button" data-close>Hủy</button></div>
+  </form>
+</dialog>
+
+<dialog class="finance-dialog wallet-dialog" id="wallet-operation" aria-labelledby="wallet-operation-title">
+  <h2 id="wallet-operation-title">Chuyển tiền giữa ví</h2>
+  <form class="finance-stack">
+    <div class="finance-fields">
+      <label><span id="wallet-source-label">Ví nguồn</span><select name="sourceId" required></select></label>
+      <label><span id="wallet-destination-label">Ví đích</span><select name="destinationId" required></select></label>
+      <label>Số tiền (VND)<input name="amount" inputmode="numeric" required data-money></label>
+      <label class="wallet-wide">Ghi chú (tùy chọn)<textarea name="note" rows="2" maxlength="500"></textarea></label>
+    </div>
+    <p role="alert" class="finance-error" hidden></p>
+    <div class="finance-actions"><button class="button app-primary" type="submit">Xác nhận</button><button class="button" type="button" data-close>Hủy</button></div>
+  </form>
+</dialog>
+
+<dialog class="finance-dialog wallet-dialog" id="wallet-archive" aria-labelledby="wallet-archive-title">
+  <h2 id="wallet-archive-title">Lưu trữ ví</h2>
+  <form class="finance-stack">
+    <p id="wallet-archive-message"></p>
+    <p role="alert" class="finance-error" hidden></p>
+    <div class="finance-actions"><button class="button app-primary" type="submit">Xác nhận</button><button class="button" type="button" data-close>Hủy</button></div>
+  </form>
+</dialog>
+
+<dialog class="finance-dialog wallet-dialog wallet-history-dialog" id="wallet-history" aria-labelledby="wallet-history-title">
+  <h2 id="wallet-history-title">Lịch sử ví</h2>
+  <form class="finance-fields" id="wallet-history-filter">
+    <label>Từ ngày<input type="text" data-date placeholder="dd/mm/yy" name="from" required></label>
+    <label>Đến ngày<input type="text" data-date placeholder="dd/mm/yy" name="to" required></label>
+    <label>Loại biến động<select name="kind"><option value="">Tất cả</option><option value="income">Thu</option><option value="expense">Chi</option><option value="transfer">Chuyển ví</option><option value="adjustment">Điều chỉnh số dư</option><option value="payment">Thanh toán thẻ</option></select></label>
+    <button class="button" type="submit">Áp dụng</button>
+  </form>
+  <p id="wallet-history-state" role="status"></p>
+  <div id="wallet-history-results" hidden>
+    <dl class="goal-card-values wallet-history-totals"><div><dt id="wallet-history-opening-label">Số dư đầu kỳ</dt><dd id="wallet-history-opening"></dd></div><div><dt id="wallet-history-closing-label">Số dư cuối kỳ</dt><dd id="wallet-history-closing"></dd></div></dl>
+    <figure class="wallet-figure" id="wallet-figure" hidden>
+      <figcaption id="wallet-chart-caption">Số dư cuối ngày</figcaption>
+      <svg id="wallet-chart" viewBox="0 0 420 102" aria-hidden="true"><path d="M8 93H412"></path><polyline></polyline></svg>
+      <div class="wallet-chart-dates"><span id="wallet-chart-from"></span><span id="wallet-chart-to"></span></div>
+    </figure>
+    <ul class="finance-list wallet-history-items" id="wallet-history-items"></ul>
+    <div class="finance-actions" id="wallet-history-pages" hidden><button class="button" id="wallet-prev" type="button">Trước</button><span id="wallet-page"></span><button class="button" id="wallet-next" type="button">Sau</button></div>
+  </div>
+  <button class="button" type="button" data-close>Đóng</button>
+</dialog>
+<script type="module" src="/js/wallets.js"></script>

@@ -1,0 +1,6 @@
+<header class="app-topbar">
+  <div class="topbar-start"><button class="icon-button menu-toggle" id="menu-toggle" type="button" aria-label="Mở menu điều hướng" aria-controls="app-sidebar" aria-expanded="false"><%- include('icon',{name:'menu'}) %></button><span class="topbar-title"><%= page.label %></span><span class="topbar-context">Không gian của bạn</span></div>
+  <div class="topbar-end"><span class="topbar-brand-note"><%- include('icon',{name:'leaf'}) %>Sống nhẹ hơn mỗi ngày</span><div class="account-dropdown"><button id="account-toggle" class="account-toggle" type="button" aria-controls="account-menu" aria-expanded="false"><span class="avatar" data-user-initial><%= initial %></span><span class="topbar-user-name" data-user-name><%= displayName %></span><%- include('icon',{name:'chevron-down'}) %><span class="sr-only">Mở menu tài khoản</span></button>
+    <div class="account-menu" id="account-menu" hidden><span class="account-menu-label">TÀI KHOẢN CỦA BẠN</span><a href="<%= navigation.account %>"><%- include('icon',{name:'user'}) %>Tài khoản</a><a href="<%= navigation.settings %>"><%- include('icon',{name:'settings'}) %>Cài đặt</a><div class="menu-separator"></div><button id="logout-button" type="button"><%- include('icon',{name:'logout'}) %><span>Đăng xuất</span></button></div>
+  </div></div>
+</header>

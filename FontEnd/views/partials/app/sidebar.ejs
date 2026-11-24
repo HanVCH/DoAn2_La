@@ -1,0 +1,16 @@
+<aside class="app-sidebar" id="app-sidebar" aria-label="Điều hướng chính" tabindex="-1">
+  <div class="sidebar-brand-row"><a class="brand app-brand" href="<%= navigation.overview %>" aria-label="LÁ — Tổng quan"><span class="brand-mark"><%- include('icon',{name:'leaf'}) %></span><span>lá</span></a><button class="icon-button drawer-close" type="button" data-close-drawer aria-label="Đóng menu"><%- include('icon',{name:'close'}) %></button></div>
+  <p class="nav-caption">KHÔNG GIAN CÁ NHÂN</p>
+  <nav class="app-navigation" aria-label="Chức năng chính">
+    <% for (const item of pages.filter(item=>item.group === 'main')) { %>
+      <a class="nav-link <%= page.id === item.id ? 'is-active' : '' %>" href="<%= item.path %>" <%- page.id === item.id ? 'aria-current="page"' : '' %>><%- include('icon',{name:item.icon}) %><span><%= item.label %></span></a>
+    <% } %>
+  </nav>
+  <div class="sidebar-lower">
+    <div class="sidebar-divider"></div>
+    <a class="nav-link <%= page.id === 'settings' ? 'is-active' : '' %>" href="<%= navigation.settings %>" <%- page.id === 'settings' ? 'aria-current="page"' : '' %>><%- include('icon',{name:'settings'}) %><span>Cài đặt</span></a>
+    <div class="sidebar-garden"><p>Góp nhặt hôm nay,<br>an tâm ngày mai.</p><span>Bắt đầu với một<br>thói quen nhỏ.</span><img src="/assets/plant.svg" alt="" width="95" height="94"></div>
+    <a class="nav-link <%= page.id === 'help' ? 'is-active' : '' %>" href="<%= navigation.help %>" <%- page.id === 'help' ? 'aria-current="page"' : '' %>><%- include('icon',{name:'help'}) %><span>Trợ giúp</span></a>
+    <a class="sidebar-account <%= page.id === 'account' ? 'is-active' : '' %>" href="<%= navigation.account %>" <%- page.id === 'account' ? 'aria-current="page"' : '' %>><span class="avatar" data-user-initial><%= initial %></span><span><strong data-user-name><%= displayName %></strong><small>Tài khoản cá nhân</small></span><%- include('icon',{name:'chevron-down'}) %></a>
+  </div>
+</aside>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <title><%= state === 'request' ? 'Quên mật khẩu?' : 'Đặt lại mật khẩu' %> · LÁ</title>
+  <%- include('partials/head') %>
+  <link rel="stylesheet" href="/css/login.css">
+  <link rel="stylesheet" href="/css/recovery.css">
+  <script src="/js/recovery.js" type="module"></script>
+</head>
+<body>
+  <div class="page-shell">
+    <%- include('partials/header') %>
+    <main class="register-layout login-layout">
+      <%- include('partials/illustration') %>
+      <section class="registration login-panel recovery-panel" aria-labelledby="recovery-title" data-state="<%= state %>">
+        <% if (state === 'request') { %>
+          <div id="request-state">
+            <span class="recovery-mark"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#lock"/></svg></span>
+            <h1 id="recovery-title">Quên mật khẩu?</h1>
+            <p class="form-intro recovery-intro">Nhập Gmail hoặc số điện thoại đã đăng ký để khôi phục tài khoản.</p>
+            <form id="recovery-request-form" action="/forgot-password" method="post" novalidate>
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <div class="field-group">
+                <label for="identifier">Gmail hoặc số điện thoại</label>
+                <div class="input-wrapper"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#mail"/></svg><input id="identifier" name="identifier" type="text" placeholder="Nhập Gmail hoặc số điện thoại" autocomplete="username" required maxlength="254" aria-describedby="identifier-error"></div>
+                <p class="field-error" id="identifier-error" hidden></p>
+              </div>
+              <button class="button primary-button" type="submit"><span class="loading-spinner" aria-hidden="true" hidden></span><span data-submit-label>Gửi liên kết xác thực</span></button>
+            </form>
+          </div>
+          <div id="sent-state" hidden>
+            <span class="recovery-mark"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#mail"/></svg></span>
+            <h1 id="sent-title" tabindex="-1">Kiểm tra hộp thư của bạn</h1>
+            <p class="form-intro recovery-intro">Liên kết đặt lại mật khẩu đã được gửi đến <strong id="masked-email"></strong>.</p>
+            <p class="recovery-note">Liên kết có hiệu lực trong <%= tokenTtlMinutes %> phút. Đừng quên kiểm tra thư mục Spam hoặc Thư rác.</p>
+            <button class="button primary-button" id="resend-button" type="button" disabled>Gửi lại email (60s)</button>
+            <button class="change-identifier" id="change-identifier" type="button">Dùng Gmail hoặc số điện thoại khác</button>
+          </div>
+        <% } else if (state === 'reset') { %>
+          <span class="recovery-mark"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#lock"/></svg></span>
+          <h1 id="recovery-title">Đặt lại mật khẩu</h1>
+          <p class="form-intro recovery-intro">Tạo mật khẩu mới để tiếp tục chăm chút ví của bạn.</p>
+          <form id="recovery-reset-form" action="/reset-password" method="post" novalidate>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <input type="hidden" name="token" value="<%= token %>">
+            <div class="field-group">
+              <label for="password">Mật khẩu mới</label>
+              <div class="input-wrapper"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#lock"/></svg><input id="password" name="password" type="password" placeholder="Nhập mật khẩu mới" autocomplete="new-password" required minlength="8" maxlength="1024" aria-describedby="password-hint password-error"><button class="password-toggle" type="button" data-target="password" data-password-label="mật khẩu mới" aria-label="Hiện mật khẩu mới" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#eye"/></svg></button></div>
+              <p class="field-hint" id="password-hint">Ít nhất 8 ký tự, tối đa 72 byte UTF-8.</p>
+              <p class="field-error" id="password-error" hidden></p>
+            </div>
+            <div class="field-group">
+              <label for="passwordConfirmation">Nhập lại mật khẩu mới</label>
+              <div class="input-wrapper"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#lock"/></svg><input id="passwordConfirmation" name="passwordConfirmation" type="password" placeholder="Nhập lại mật khẩu mới" autocomplete="new-password" required maxlength="1024" aria-describedby="passwordConfirmation-error"><button class="password-toggle" type="button" data-target="passwordConfirmation" data-password-label="mật khẩu mới nhập lại" aria-label="Hiện mật khẩu mới nhập lại" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#eye"/></svg></button></div>
+              <p class="field-error" id="passwordConfirmation-error" hidden></p>
+            </div>
+            <button class="button primary-button" type="submit"><span class="loading-spinner" aria-hidden="true" hidden></span><span data-submit-label>Lưu mật khẩu mới</span></button>
+          </form>
+        <% } else { %>
+          <span class="recovery-mark"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#help"/></svg></span>
+          <h1 id="recovery-title">Liên kết chưa khả dụng</h1>
+          <p class="form-intro recovery-intro" role="alert"><%= message %></p>
+          <a class="button primary-button request-new-link" href="/forgot-password">Yêu cầu liên kết mới</a>
+        <% } %>
+        <p class="form-status" id="form-status" role="status" aria-live="polite" hidden></p>
+        <p class="recovery-support" id="recovery-support" hidden>Vui lòng <%= supportEmail ? 'gửi email đến' : 'liên hệ bộ phận hỗ trợ của LÁ' %><% if (supportEmail) { %> <a href="mailto:<%= supportEmail %>"><%= supportEmail %></a><% } %> để được hướng dẫn xác minh tài khoản. Bạn không thể đặt lại mật khẩu khi chưa xác thực email.</p>
+        <a class="button login-button recovery-back" href="/login"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#arrow-left"/></svg>Về trang đăng nhập</a>
+        <footer class="page-footer">LÁ · QUẢN LÝ THU CHI CÁ NHÂN</footer>
+        <noscript><p class="field-error">Vui lòng bật JavaScript để thực hiện khôi phục mật khẩu.</p></noscript>
+      </section>
+    </main>
+  </div>
+  <%- include('partials/help-dialog', { isLogin: true, recovery: true }) %>
+</body>
+</html>

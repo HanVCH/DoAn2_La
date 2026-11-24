@@ -1,0 +1,18 @@
+.recovery-mark { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; margin-bottom: 22px; border-radius: 15px; background: var(--sage-background); color: var(--button-primary); }
+.recovery-mark .icon { width: 24px; height: 24px; }
+.recovery-intro { margin-top: 8px; line-height: 24px; }
+.recovery-panel form { margin-top: 30px; }
+.recovery-panel form > .primary-button { margin-top: 26px; }
+.recovery-back { margin-top: 16px; }
+.recovery-note, .recovery-support { margin: 18px 0 0; font-size: 13px; line-height: 23px; color: var(--text-secondary); }
+#sent-state > .primary-button, .request-new-link { margin-top: 28px; }
+.change-identifier { display: block; margin: 18px auto 0; padding: 4px; border: 0; background: transparent; color: var(--button-primary); font-size: 12px; text-underline-offset: 4px; }
+.change-identifier:hover { text-decoration: underline; }
+.recovery-panel .form-status { margin-top: 18px; }
+.recovery-support a { color: var(--button-primary); }
+#sent-title:focus { outline: none; }
+@media (max-width: 600px) {
+  .recovery-panel .recovery-intro { font-size: 14px; line-height: 24px; }
+  .recovery-mark { margin-bottom: 20px; }
+  .recovery-panel h1 { overflow-wrap: anywhere; }
+}

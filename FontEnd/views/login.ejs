@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <title>Đăng nhập · LÁ</title>
+  <%- include('partials/head') %>
+  <link rel="stylesheet" href="/css/login.css">
+  <script src="/js/login.js" type="module"></script>
+</head>
+<body>
+  <div class="page-shell">
+    <%- include('partials/header') %>
+    <main class="register-layout login-layout">
+      <%- include('partials/illustration') %>
+      <section class="registration login-panel" aria-labelledby="login-title">
+        <h1 id="login-title">Đăng nhập</h1>
+        <p class="form-intro">Chào mừng bạn trở lại! Cùng chăm chút ví hôm nay.</p>
+        <% if (notice) { %><p class="form-status login-notice" role="status"><%= notice %></p><% } %>
+
+        <form id="login-form" action="/api/auth/login" method="post" novalidate>
+          <div class="field-group">
+            <label for="email">Email hoặc số điện thoại</label>
+            <div class="input-wrapper"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#mail"/></svg><input id="email" name="email" type="text" placeholder="ban@gmail.com hoặc 0901234567" autocomplete="username" required maxlength="254" aria-describedby="email-error"></div>
+            <p class="field-error" id="email-error" hidden></p>
+          </div>
+          <div class="field-group" id="password-step" hidden>
+            <label for="password">Mật khẩu</label>
+            <div class="input-wrapper"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#lock"/></svg><input id="password" name="password" type="password" placeholder="Nhập mật khẩu" autocomplete="current-password" required aria-describedby="password-error"><button class="password-toggle" type="button" data-target="password" aria-label="Hiện mật khẩu" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg#eye"/></svg></button></div>
+            <p class="field-error" id="password-error" hidden></p>
+          </div>
+          <div class="forgot-password-row"><a class="forgot-password-link" href="<%= forgotPasswordPath %>">Quên mật khẩu?</a></div>
+          <p class="form-status" id="form-status" role="status" aria-live="polite" hidden></p>
+          <button class="button primary-button" id="submit-button" type="submit"><span class="loading-spinner" aria-hidden="true" hidden></span><span data-submit-label>Tiếp tục</span></button>
+          <noscript><p class="field-error">Vui lòng bật JavaScript để kiểm tra thông tin và đăng nhập.</p></noscript>
+        </form>
+
+        <div class="divider"><span>hoặc đăng nhập bằng</span></div>
+        <%- include('partials/social-buttons', { isLogin: true }) %>
+        <p class="login-prompt">Bạn chưa có tài khoản?</p>
+        <a class="button login-button" href="/register">Tạo tài khoản</a>
+        <footer class="page-footer">LÁ · QUẢN LÝ THU CHI CÁ NHÂN</footer>
+      </section>
+    </main>
+  </div>
+  <%- include('partials/help-dialog', { isLogin: true }) %>
+</body>
+</html>

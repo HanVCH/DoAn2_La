@@ -1,0 +1,33 @@
+<div class="overview-heading"><div><p class="page-eyebrow">TÀI CHÍNH CÁ NHÂN</p><h1>Xin chào, <span data-user-name><%= displayName %></span><span class="greeting-leaf" aria-hidden="true">.</span></h1><p class="page-description">Một góc nhỏ để hiểu dòng tiền và chăm chút ngày mai.</p></div><span class="date-chip"><%- include('../partials/app/icon',{name:'calendar'}) %><span id="overview-period">Kỳ hiện tại</span></span></div>
+<section class="stats-grid" id="finance-stats" aria-label="Tổng quan tài chính">
+  <%- include('../partials/app/stat-card',{label:'Tiền còn lại sau khi trừ nợ thẻ',icon:'wallet',featured:true}) %>
+  <%- include('../partials/app/stat-card',{label:'Thu nhập trong tháng',icon:'arrow-down'}) %>
+  <%- include('../partials/app/stat-card',{label:'Chi tiêu trong tháng',icon:'arrow-up'}) %>
+  <%- include('../partials/app/stat-card',{label:'Tổng thu chi',icon:'leaf'}) %>
+</section>
+<nav class="quick-links" aria-label="Lối tắt"><a href="<%= navigation.transactions %>"><%- include('../partials/app/icon',{name:'transactions'}) %><span>Xem giao dịch</span><%- include('../partials/app/icon',{name:'arrow-right'}) %></a><a href="<%= navigation.budgets %>"><%- include('../partials/app/icon',{name:'budget'}) %><span>Xem ngân sách</span><%- include('../partials/app/icon',{name:'arrow-right'}) %></a><a href="<%= navigation.goals %>"><%- include('../partials/app/icon',{name:'target'}) %><span>Xem mục tiêu</span><%- include('../partials/app/icon',{name:'arrow-right'}) %></a><a href="<%= navigation.wallets %>"><%- include('../partials/app/icon',{name:'wallet'}) %><span>Ví của tôi</span><%- include('../partials/app/icon',{name:'arrow-right'}) %></a></nav>
+<div class="overview-panels">
+  <section class="app-card cashflow-panel" aria-labelledby="cashflow-title">
+    <div class="card-heading"><div><h2 id="cashflow-title">Biến động thu chi</h2><p>Tổng thu và chi từng ngày trong tháng</p></div><div class="chart-legend" aria-label="Chú giải"><span class="flow-income"><i></i>Thu</span><span class="flow-expense"><i></i>Chi</span></div></div>
+    <div class="chart-empty" id="cashflow-empty"><div class="chart-grid" aria-hidden="true"></div><div class="chart-empty-content"><span class="chart-leaf"><%- include('../partials/app/icon',{name:'chart'}) %></span><h3>Chưa có giao dịch trong tháng</h3></div></div>
+    <div class="stock-chart" id="cashflow-chart" hidden>
+      <div class="stock-reading" id="cashflow-reading"></div>
+      <svg id="cashflow-svg" viewBox="0 0 480 178" aria-hidden="true"></svg>
+      <label class="stock-day">Chọn ngày<input id="cashflow-day" type="range" min="0" max="0" value="0"></label>
+    </div>
+  </section>
+  <section class="app-card goals-panel" aria-labelledby="goals-title">
+    <div class="card-heading"><div><h2 id="goals-title">Mục tiêu của bạn</h2><p>Tiến độ tiết kiệm</p></div><a class="card-view-link" href="<%= navigation.goals %>" aria-label="Xem mục tiêu">Xem tất cả<%- include('../partials/app/icon',{name:'arrow-right'}) %></a></div>
+    <div id="dashboard-goals-empty"><%- include('../partials/app/empty-state',{icon:'target',title:'Bạn chưa có hũ chi tiêu',description:'Tạo hũ để theo dõi số tiền đã dành.',compact:true}) %><a class="button" href="<%= navigation.goals %>">Tạo hũ chi tiêu</a></div>
+    <ul class="goal-list" id="dashboard-goals" hidden></ul>
+  </section>
+  <section class="app-card recent-panel" aria-labelledby="recent-title"><div class="card-heading"><div><h2 id="recent-title">Giao dịch gần đây</h2><p>Những khoản thu, chi mới nhất</p></div><a class="card-view-link" href="<%= navigation.transactions %>" aria-label="Xem giao dịch gần đây">Xem tất cả<%- include('../partials/app/icon',{name:'arrow-right'}) %></a></div><%- include('../partials/app/empty-state',{icon:'transactions',title:'Chưa có giao dịch',description:'Chưa có dữ liệu để hiển thị. Danh sách giao dịch của bạn sẽ xuất hiện tại đây.',compact:true}) %></section>
+  <section class="app-card budget-panel" aria-labelledby="budget-title">
+    <div class="card-heading"><div><h2 id="budget-title">Ngân sách tháng</h2><p>Số tiền còn lại trong hạn mức chi</p></div><a class="card-view-link" href="<%= navigation.budgets %>" aria-label="Xem ngân sách">Xem tất cả<%- include('../partials/app/icon',{name:'arrow-right'}) %></a></div>
+    <p id="dashboard-budget-empty">Chưa có ngân sách trong tháng.</p>
+    <ul id="dashboard-budget-items" class="finance-list finance-summary" hidden></ul>
+  </section>
+</div>
+<p role="status" data-finance-status hidden></p>
+<div data-finance-summary="overview" hidden></div>
+<script type="module" src="/js/finance-summary.js"></script>

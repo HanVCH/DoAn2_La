@@ -1,0 +1,5 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head><title><%= title %> · LÁ</title><%- include('partials/head') %></head>
+<body><div class="page-shell"><header class="site-header"><a class="brand" href="/" aria-label="LÁ — Trang chủ"><span class="brand-mark"><svg aria-hidden="true"><use href="/assets/icons.svg#leaf"/></svg></span><span>lá</span></a></header><main class="information-page"><h1><%= title %></h1><p><%= description %></p><a class="button login-button" href="<%= typeof backPath === 'string' ? backPath : '/register' %>"><%= typeof backLabel === 'string' ? backLabel : 'Về trang đăng ký' %></a></main></div></body>
+</html>

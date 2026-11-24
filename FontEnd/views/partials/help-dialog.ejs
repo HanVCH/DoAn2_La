@@ -1,0 +1,15 @@
+<dialog id="help-dialog" aria-labelledby="help-title">
+  <div class="dialog-topline"><span class="brand-mark"><svg aria-hidden="true"><use href="/assets/icons.svg#leaf"/></svg></span><button class="dialog-close" type="button" aria-label="Đóng trợ giúp">×</button></div>
+  <h2 id="help-title"><%= isLogin ? 'Chào mừng bạn trở lại' : 'Cùng bạn bắt đầu' %></h2>
+  <% if (typeof recovery !== 'undefined' && recovery) { %>
+    <p>Nhập Gmail hoặc số điện thoại đã đăng ký. Chúng tôi sẽ gửi liên kết xác thực đến email gắn với tài khoản của bạn.</p>
+    <p>Chỉ người có liên kết email hợp lệ mới có thể đổi mật khẩu. Hãy kiểm tra thư mục Spam và chờ 60 giây trước khi gửi lại.</p>
+  <% } else if (isLogin) { %>
+    <p>Nhập email hoặc số điện thoại đã đăng ký, chọn “Tiếp tục”, rồi nhập mật khẩu LÁ. Nếu không nhớ mật khẩu, chọn “Quên mật khẩu?”.</p>
+    <p>Gmail trong biểu mẫu dùng mật khẩu tài khoản LÁ. Các nút Google và Facebook dùng đăng nhập OAuth khi dịch vụ được kết nối.</p>
+  <% } else { %>
+    <p>Điền email, số điện thoại và tạo mật khẩu có ít nhất 8 ký tự, tối đa 72 byte UTF-8. Nhập lại mật khẩu và đồng ý với điều khoản để tiếp tục.</p>
+    <p>Bạn có thể đăng ký bằng email. Google/Facebook dùng OAuth khi dịch vụ được kết nối.</p>
+  <% } %>
+  <button class="button primary-button" type="button" data-close-help>Đã hiểu</button>
+</dialog>

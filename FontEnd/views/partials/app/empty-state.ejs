@@ -1,0 +1,5 @@
+<div class="empty-state <%= typeof compact !== 'undefined' && compact ? 'empty-compact' : '' %>">
+  <span class="empty-icon"><%- include('icon',{name:icon}) %></span>
+  <h3><%= title %></h3><p><%= description %></p>
+  <% if (typeof href === 'string') { %><a class="text-link" href="<%= href %>"><%= linkLabel %><%- include('icon',{name:'arrow-right'}) %></a><% } %>
+</div>

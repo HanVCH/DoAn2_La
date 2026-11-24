@@ -1,0 +1,11 @@
+<fieldset class="category-icon-picker" <%= typeof initiallyHidden !== 'undefined' && initiallyHidden ? 'hidden' : '' %>>
+  <legend>Biểu tượng danh mục</legend>
+  <div class="category-icon-grid">
+    <% for (const [key, label] of Object.entries(categoryIcons)) { %>
+      <label class="category-icon-option" title="<%= label %>">
+        <input type="radio" name="icon" value="<%= key %>" <%= key === 'tag' ? 'checked' : '' %>>
+        <span><svg class="app-icon" aria-hidden="true"><use href="/assets/category-icons.svg#<%= key %>"></use></svg><span><%= label %></span></span>
+      </label>
+    <% } %>
+  </div>
+</fieldset>

@@ -1,0 +1,8 @@
+.finance-date-field { display: flex; position: relative; align-items: center; gap: 4px; min-width: 0; width: 100%; }
+.finance-date-field > input { flex: 1; min-width: 0; }
+.finance-date-field > button,.finance-date-picker > button { padding: 5px; border: 0; border-radius: 5px; background: var(--sage-background); color: var(--text-primary); font: inherit; font-size: 12px; cursor: pointer; }
+.finance-date-field:has(input:disabled) > button { opacity: .45; cursor: default; }
+.finance-date-picker { position: absolute; top: 100%; inset-inline-start: 0; z-index: 3; display: flex; flex-wrap: wrap; align-items: center; gap: 4px; width: min(230px,calc(100vw - 75px)); padding: 6px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--surface); box-shadow: 0 3px 10px #233c3218; }
+.finance-date-picker select { flex: 1; min-width: 0; border: 1px solid var(--border-color); border-radius: 5px; padding: 3px; color: var(--text-primary); background: var(--surface); font: inherit; }
+.finance-fields .finance-date-picker select { width: auto; padding: 4px; }
+.input-wrapper .finance-date-field { height: 100%; padding-right: 6px; }

@@ -1,0 +1,56 @@
+<div class="app-page-header"><div><h1><%= page.label %></h1><p class="page-description"><%= page.description %></p></div></div>
+<div data-finance-summary="reports">
+  <fieldset class="budget-toolbar">
+    <legend>Kỳ báo cáo</legend>
+    <div class="budget-period-fields finance-fields">
+      <div><label for="report-month">Tháng</label><select id="report-month">
+        <% for (let month = 1; month <= 12; month++) { %>
+          <option value="<%= String(month).padStart(2,'0') %>">Tháng <%= month %></option>
+        <% } %>
+      </select></div>
+      <div><label for="report-year">Năm</label><select id="report-year" data-year data-min="1000" required></select></div>
+    </div>
+  </fieldset>
+  <p role="status" data-finance-status>Đang tải báo cáo…</p>
+  <button class="button" id="report-retry" type="button" hidden>Thử lại</button>
+  <div class="finance-stack" id="report-data" hidden>
+    <section class="app-card report-panel" aria-labelledby="report-expense-title">
+      <div class="report-heading">
+        <div><h2 id="report-expense-title">Chi tiêu theo danh mục</h2><p id="report-range"></p><p id="report-as-of" hidden></p></div>
+        <div class="report-total"><span>Tổng chi tiêu</span><strong id="report-total-expense"></strong></div>
+      </div>
+      <p id="report-empty-expense" hidden>Chưa có chi tiêu trong tháng này</p>
+      <div class="report-breakdown" id="report-breakdown" hidden>
+        <svg id="report-donut" class="report-donut" viewBox="0 0 190 190" aria-hidden="true"></svg>
+        <div>
+          <p id="report-category-reading" class="report-reading" aria-live="polite"></p>
+          <ul id="report-category-list" class="goal-list" aria-label="Tỷ trọng chi tiêu theo danh mục"></ul>
+        </div>
+      </div>
+    </section>
+    <section class="app-card report-panel" aria-labelledby="report-trend-title">
+      <div class="report-heading">
+        <h2 id="report-trend-title">Chi tiêu qua các tháng</h2>
+        <div class="finance-fields report-comparison"><label for="report-comparison">Mốc so sánh</label><select id="report-comparison">
+          <option value="previous">So với tháng trước</option>
+          <option value="average">So với trung bình 3 tháng trước</option>
+        </select></div>
+      </div>
+      <p id="report-change" class="report-reading" aria-live="polite"></p>
+      <svg id="report-trend" class="report-trend" viewBox="0 0 440 208" aria-hidden="true"></svg>
+      <p id="report-trend-reference" class="report-reference"></p>
+      <p id="report-month-reading" class="report-reading" aria-live="polite"></p>
+      <ul id="report-month-list" class="goal-list report-month-list" aria-label="Số tiền chi qua bốn tháng"></ul>
+    </section>
+    <div class="report-detail-grid">
+      <section class="app-card report-panel"><h2>Thu chi trong kỳ</h2><ul class="finance-list" data-finance-items></ul></section>
+      <section class="app-card report-panel" id="report-budget" hidden><h2>Ngân sách tháng <span id="report-budget-period"></span></h2><ul id="report-budget-items" class="finance-list finance-summary"></ul></section>
+      <section class="app-card report-panel" id="report-wallets" hidden><h2>Số dư ví hiện tại</h2><ul id="report-wallet-items" class="finance-list finance-summary"></ul></section>
+    </div>
+    <details class="app-card report-panel" id="report-recorded-months" hidden>
+      <summary>Giao dịch theo tháng lịch</summary>
+      <ul class="finance-list finance-summary" id="finance-periods"></ul>
+    </details>
+  </div>
+</div>
+<script type="module" src="/js/finance-summary.js"></script>

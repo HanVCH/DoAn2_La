@@ -1,0 +1,26 @@
+{
+  "name": "la-personal-finance",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Website quản lý thu chi cá nhân LÁ",
+  "workspaces": [
+    "FontEnd",
+    "BackEnd"
+  ],
+  "scripts": {
+    "start": "npm run start --workspace FontEnd",
+    "dev": "npm run dev --workspace FontEnd",
+    "test": "node tests/run.mjs",
+    "test:backend": "node tests/run.mjs backend",
+    "test:browser": "node tests/run.mjs browser",
+    "db:migrate": "node --env-file-if-exists=.env BackEnd/db/migrate.js",
+    "test:ui": "node tests/run.mjs ui",
+    "db:check": "node --env-file-if-exists=.env BackEnd/db/check.js",
+    "otp:configure": "node BackEnd/scripts/configure-otp.js"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.0",
+    "mailparser": "^3.14.2",
+    "smtp-server": "^3.21.3"
+  }
+}

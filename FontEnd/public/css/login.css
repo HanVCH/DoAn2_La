@@ -1,0 +1,18 @@
+/* Shared tokens, controls, fonts and illustration come from register.css. */
+.login-layout { align-items: center; }
+.login-panel { padding-top: 0; }
+#login-form { margin-top: 32px; }
+#login-form .field-group + .field-group { margin-top: 20px; }
+.forgot-password-row { display: flex; justify-content: flex-end; margin-top: 12px; }
+.forgot-password-link { color: var(--button-primary); font-size: 13px; line-height: 20px; text-decoration: none; text-underline-offset: 4px; }
+.forgot-password-link:hover { color: var(--illustration-background); text-decoration: underline; }
+#login-form > .primary-button { margin-top: 24px; }
+.login-panel .divider { margin: 26px 0 20px; }
+.login-panel .social-buttons-stacked { grid-template-columns: minmax(0, 1fr); gap: 12px; margin-top: 0; }
+.login-panel .social-button { width: 100%; }
+.login-panel .login-prompt { margin-top: 28px; }
+@media (max-width: 600px) {
+  .login-panel .form-intro { font-size: 14px; line-height: 22px; }
+  #login-form { margin-top: 28px; }
+  .login-panel .social-button { font-size: 13px; gap: 11px; }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "@la/backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "dependencies": {
+    "argon2": "^0.45.2",
+    "bcryptjs": "^3.0.3",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.7.5",
+    "mysql2": "^3.24.6",
+    "nodemailer": "^10.3.1"
+  }
+}

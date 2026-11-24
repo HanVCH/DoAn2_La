@@ -1,0 +1,48 @@
+<div class="app-page-header">
+  <div><h1>Ngân sách</h1><p class="page-description">Đặt hạn mức cho từng danh mục chi tiêu và theo dõi số tiền còn lại.</p></div>
+  <button class="button app-primary" type="button" id="budget-add">Tạo ngân sách</button>
+</div>
+<fieldset class="budget-toolbar">
+  <legend>Kỳ ngân sách</legend>
+  <div class="budget-period-fields finance-fields">
+    <div>
+      <label for="budget-month">Tháng</label>
+      <select id="budget-month">
+        <% for (let month = 1; month <= 12; month++) { %>
+          <option value="<%= String(month).padStart(2,'0') %>">Tháng <%= month %></option>
+        <% } %>
+      </select>
+    </div>
+    <div>
+      <label for="budget-year">Năm</label>
+      <select id="budget-year" data-year data-min="1900" required></select>
+    </div>
+  </div>
+</fieldset>
+<p id="budget-status" role="status">Đang tải ngân sách…</p>
+<section id="budget-overview" hidden aria-label="Tổng quan ngân sách">
+  <div class="budget-totals">
+    <article class="app-card"><h2>Tổng hạn mức</h2><strong id="budget-total-available"></strong><small>Gồm hạn mức gốc và tiền chuyển kỳ</small></article>
+    <article class="app-card"><h2>Đã chi</h2><strong id="budget-total-spent"></strong><small>Trong các danh mục có ngân sách</small></article>
+    <article class="app-card"><h2>Tổng ngân sách còn lại</h2><strong id="budget-total-remaining"></strong><small>Hạn mức khả dụng trừ số đã chi</small></article>
+  </div>
+  <div class="budget-overages" id="budget-overages" hidden><strong>Danh mục vượt ngân sách</strong><ul id="budget-overage-items"></ul></div>
+</section>
+<ul id="budget-items" class="budget-cards" aria-label="Ngân sách theo danh mục"></ul>
+
+<dialog class="finance-dialog budget-dialog" id="budget-dialog" aria-labelledby="budget-form-title">
+  <h2 id="budget-form-title">Tạo ngân sách</h2>
+  <form class="finance-stack" id="budget-form">
+    <div id="budget-no-options" hidden><p>Chưa có danh mục chi tiêu.</p><a class="button" href="<%= navigation.transactions %>">Tạo danh mục trong Giao dịch</a></div>
+    <div class="finance-fields">
+      <label>Danh mục chi<select name="categoryId" required></select></label>
+      <label>Hạn mức gốc (VND)<input name="baseAmount" inputmode="numeric" required data-money></label>
+      <label>Tháng bắt đầu<input name="month" type="text" data-month placeholder="mm/yy" min="1900-01" required></label>
+      <label>Ngưỡng cảnh báo (%)<input name="threshold" type="number" min="1" max="100" step="1" value="80" required></label>
+    </div>
+    <label class="budget-renew-option"><input name="autoRenew" type="checkbox" aria-describedby="budget-renew-hint"><span><strong>Tự động gia hạn</strong><small id="budget-renew-hint">Tạo kỳ kế tiếp với cùng hạn mức gốc và chuyển phần còn dư dương.</small></span></label>
+    <p class="finance-error" id="budget-form-error" role="alert" hidden></p>
+    <div class="finance-actions"><button type="submit" class="button app-primary">Lưu ngân sách</button><button type="button" class="button" id="budget-cancel">Hủy</button></div>
+  </form>
+</dialog>
+<script type="module" src="/js/budgets.js"></script>

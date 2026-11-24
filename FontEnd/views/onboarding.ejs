@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <title>Thiết lập ban đầu · LÁ</title>
+  <%- include('partials/head') %>
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="stylesheet" href="/css/onboarding.css">
+  <script type="module" src="/js/onboarding.js"></script>
+</head>
+<body>
+  <div class="page-shell setup-shell">
+    <%- include('partials/header') %>
+    <main class="setup-layout">
+      <aside class="setup-intro">
+        <span class="eyebrow">MỘT KHỞI ĐẦU NHẸ NHÀNG</span>
+        <h1>Chào mừng<br> đến với LÁ</h1>
+        <p>Hiểu bạn một chút,<br>chăm ví tốt hơn mỗi ngày.</p>
+        <ol class="setup-steps" aria-label="Các bước thiết lập">
+          <li id="profile-progress"><span>1</span><div>Thông tin của bạn<small>Để LÁ hiểu những dự định của bạn</small></div></li>
+          <li id="contact-progress"><span>2</span><div>Xác thực liên hệ<small>Chọn email hoặc số điện thoại</small></div></li>
+          <li><span>3</span><div>Sẵn sàng bắt đầu<small>Hoàn tất để vào trang chủ</small></div></li>
+        </ol>
+        <div class="setup-leaf" aria-hidden="true"><svg><use href="/assets/icons.svg#leaf"/></svg></div>
+        <p class="privacy-note">Thông tin chỉ dành cho tài khoản của bạn. Bạn có thể lưu hồ sơ và quay lại hoàn tất sau.</p>
+        <button class="text-button" id="logout-button" type="button">Đăng xuất</button>
+      </aside>
+      <section class="setup-content" aria-label="Hồ sơ và xác thực liên hệ">
+        <p class="setup-description">Hoàn tất thông tin và xác thực ít nhất một kênh liên hệ để bắt đầu sử dụng LÁ.</p>
+        <p id="form-status" class="form-status" role="status" aria-live="polite" hidden></p>
+        <section class="setup-card" aria-labelledby="profile-title">
+          <div class="section-heading"><span class="step-number">01</span><div><h2 id="profile-title">Một chút về bạn</h2><p>Các trường dưới đây đều cần thiết để hoàn tất.</p></div></div>
+          <form id="profile-form" novalidate>
+            <%- include('partials/profile-fields') %>
+            <button class="button save-button" type="submit" id="save-profile">Lưu thông tin</button>
+            <p class="saved-note" id="saved-note" role="status" hidden>Thông tin của bạn đã được lưu.</p>
+          </form>
+        </section>
+        <section class="setup-card" id="contact-section" aria-labelledby="contact-title">
+          <div class="section-heading"><span class="step-number">02</span><div><h2 id="contact-title">Giữ kết nối an toàn</h2><p>Chỉ cần xác thực email hoặc số điện thoại.</p></div></div>
+          <fieldset class="contact-options"><legend class="visually-hidden">Chọn kênh xác thực</legend>
+            <label class="contact-option"><input type="radio" name="channel" value="email" checked><span><strong>Email</strong><span class="contact-value"><%= state.email %></span><small id="email-availability"></small></span><span class="verification-badge" id="email-badge">Chưa xác thực</span></label>
+            <label class="contact-option"><input type="radio" name="channel" value="phone" <%= state.phone ? '' : 'disabled' %>><span><strong>Số điện thoại</strong><span class="contact-value"><%= state.phone || 'Chưa có số điện thoại' %></span><small id="phone-availability"></small></span><span class="verification-badge" id="phone-badge">Chưa xác thực</span></label>
+          </fieldset>
+          <p id="verification-help" class="field-hint"></p>
+          <p id="verification-send-quota" class="field-hint" aria-live="polite" hidden></p>
+          <p id="verification-unavailable" class="form-status" role="status" hidden>Chưa thể gửi mã vì dịch vụ email và SMS chưa được cấu hình. Hồ sơ đã lưu vẫn được giữ lại. Cần cấu hình ít nhất một dịch vụ gửi mã trước khi xác thực và vào trang chủ.</p>
+          <button class="button save-button" type="button" id="send-otp">Gửi mã xác thực</button>
+          <p id="email-link-pending" class="field-hint" role="status" hidden>Hãy mở thư LÁ và bấm liên kết xác thực, sau đó quay lại trang này.</p>
+          <form id="otp-form" novalidate hidden>
+            <label for="otp">Mã xác thực 6 chữ số</label>
+            <div class="otp-row"><div class="input-wrapper"><input id="otp" name="otp" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" placeholder="000000" aria-describedby="otp-error otp-expiry"></div><button class="button save-button" type="submit" id="confirm-otp">Xác thực</button></div>
+            <p id="otp-expiry" class="field-hint"></p><p id="otp-error" class="field-error" hidden></p>
+          </form>
+        </section>
+        <div class="finish-section"><p id="completion-hint">Lưu hồ sơ và xác thực một kênh liên hệ trước khi hoàn tất.</p><p id="completion-status" class="form-status" role="status" aria-live="polite" tabindex="-1" hidden></p><button class="button primary-button" type="button" id="complete-onboarding" aria-describedby="completion-hint completion-status" disabled>Hoàn tất và vào trang chủ <span aria-hidden="true">↗</span></button></div>
+      </section>
+    </main>
+    <footer class="page-footer">LÁ · CHĂM VÍ NHỎ, NUÔI NGÀY MAI</footer>
+  </div>
+  <dialog id="help-dialog" aria-labelledby="help-title"><h2 id="help-title">Thiết lập tài khoản LÁ</h2><p>Lưu đủ hồ sơ, xác thực email hoặc số điện thoại, rồi chọn Hoàn tất. Bạn có thể đăng xuất và tiếp tục sau; hồ sơ đã lưu sẽ được giữ lại.</p><button class="button save-button" type="button" data-close-help>Đã hiểu</button></dialog>
+</body>
+</html>

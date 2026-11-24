@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head><title><%= page.label %> · LÁ</title><%- include('partials/head') %><meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/css/app.css"><% if (['transactions','overview','wallets','budgets','reports','goals','settings'].includes(page.id)) { %><link rel="stylesheet" href="/css/finance.css"><% } %><% if (page.id === 'transactions') { %><link rel="stylesheet" href="/css/transactions.css"><% } %><% if (page.id === 'settings') { %><link rel="stylesheet" href="/css/settings.css"><% } %><script type="module" src="/js/app-shell.js"></script></head>
+<body class="finance-app" data-session-state="checking">
+  <div class="session-screen" id="session-screen"><a class="brand" href="<%= navigation.overview %>" aria-label="LÁ — Tổng quan"><span class="brand-mark"><%- include('partials/app/icon',{name:'leaf'}) %></span><span>lá</span></a><div id="session-loading" role="status"><span class="session-spinner" aria-hidden="true"></span><h2>Chờ LÁ một chút</h2><p>Đang kiểm tra phiên đăng nhập của bạn…</p></div><div id="session-error" role="alert" hidden><span class="empty-icon"><%- include('partials/app/icon',{name:'leaf'}) %></span><h2>Chưa thể kết nối</h2><p id="session-error-message">Không thể kiểm tra phiên đăng nhập. Vui lòng thử lại.</p><button class="button app-primary" id="retry-session" type="button">Thử lại</button></div></div>
+  <div class="app-root" id="app-root" hidden inert>
+    <a class="skip-link" href="#app-main">Đến nội dung chính</a>
+    <div class="drawer-overlay" id="drawer-overlay" hidden></div>
+    <%- include('partials/app/sidebar') %>
+    <div class="app-workspace"><%- include('partials/app/topbar') %><main id="app-main" class="app-main" tabindex="-1"><div class="app-inline-error" id="app-error" role="alert" hidden></div><%- include('pages/' + page.id) %></main><footer class="app-footer"><span>Đủ đầy mỗi ngày. Thảnh thơi ngày mai.</span><span>LÁ · QUẢN LÝ THU CHI</span></footer></div>
+  </div>
+  <noscript><div class="no-script-note">Vui lòng bật JavaScript để kiểm tra phiên và sử dụng không gian LÁ.</div></noscript>
+</body></html>
