@@ -1,0 +1,37 @@
+<div class="support-chat" data-support-account="<%= supportAccount %>">
+  <button class="support-launcher" type="button" aria-label="Mở Tổng đài hỗ trợ LÁ" aria-controls="support-panel" aria-expanded="false">
+    <img src="/assets/support-panda.png" width="64" height="64" alt="" loading="lazy" decoding="async" draggable="false">
+  </button>
+  <section class="support-panel" id="support-panel" role="dialog" aria-labelledby="support-title" hidden>
+    <header class="support-header">
+      <div><span>Trợ lý AI</span><h2 id="support-title">Tổng đài hỗ trợ LÁ</h2></div>
+      <button class="support-text-button" type="button" data-support-close>Thu gọn</button>
+    </header>
+    <div class="support-thread" tabindex="0" aria-label="Tin nhắn hỗ trợ">
+      <p class="support-bubble">Chào bạn! Bạn cần hướng dẫn thao tác nào trong LÁ?</p>
+      <div class="support-suggestions" aria-label="Câu hỏi gợi ý">
+        <button type="button">Cách thêm giao dịch?</button>
+        <button type="button">Cách tạo ngân sách?</button>
+        <button type="button">Vì sao tôi chưa nhận được OTP?</button>
+      </div>
+      <div class="support-messages" role="log" aria-label="Cuộc trò chuyện"></div>
+    </div>
+    <div class="support-feedback">
+      <p role="status" data-support-loading hidden>Trợ lý đang trả lời…</p>
+      <p role="alert" data-support-error hidden></p>
+      <button type="button" class="support-text-button" data-support-retry hidden>Thử lại</button>
+    </div>
+    <form class="support-form">
+      <label for="support-question" class="support-sr-only">Nhập câu hỏi</label>
+      <input id="support-question" type="text" maxlength="500" enterkeyhint="send" autocomplete="off" placeholder="Nhập câu hỏi…" aria-describedby="support-privacy">
+      <button class="support-send" type="submit">Gửi</button>
+    </form>
+    <footer class="support-footer">
+      <span id="support-privacy">Tránh nhập mật khẩu, OTP và số liệu cá nhân.</span>
+      <div class="support-controls">
+        <button type="button" class="support-text-button" data-support-motion>Dừng chạy</button>
+        <button type="button" class="support-text-button" data-support-reset>Đặt lại vị trí</button>
+      </div>
+    </footer>
+  </section>
+</div>

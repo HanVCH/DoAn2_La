@@ -21,6 +21,7 @@ import { createBudgetsRouter } from '../BackEnd/routes/budgets.js';
 import { createWalletsRouter } from '../BackEnd/routes/wallets.js';
 import { createSettingsRouter } from '../BackEnd/routes/settings.js';
 import { renewDueBudgets } from '../BackEnd/services/budgets.js';
+import { createSupportRouter } from '../BackEnd/routes/support.js';
 
 const directory = path.dirname(fileURLToPath(import.meta.url));
 const require = createRequire(import.meta.url);
@@ -58,6 +59,7 @@ export function createApp(options = {}) {
   app.use('/api/budgets',createBudgetsRouter({db,config}));
   app.use('/api/wallets',createWalletsRouter({db,config}));
   app.use('/api/settings',createSettingsRouter({db,config}));
+  app.use('/api/support',createSupportRouter({config,fetchAi:options.supportFetch}));
   app.get('/api/reports',async(request,response)=>{
     response.set('Cache-Control','no-store');
     reply(response,200,'REPORT_READY','Báo cáo chi tiêu.',await financeSummary(db,request.authUser.id,request.query.month,{report:true}));

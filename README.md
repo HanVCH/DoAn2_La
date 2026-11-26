@@ -29,6 +29,19 @@ npm.cmd run dev
 
 Mở **http://localhost:3000/register** hoặc **http://localhost:3000/login**. `npm.cmd start` chạy không watch. Một Express process phục vụ frontend và API cùng origin. Các lệnh tự đọc `.env`; biến shell có ưu tiên cao hơn.
 
+## Tổng đài hỗ trợ LÁ
+
+Thêm cấu hình sau vào `D:\DoAn2\BackEnd\.env` rồi khởi động lại bằng `npm.cmd start` từ thư mục gốc. Dùng khóa API của dự án OpenAI có quyền gọi model đã chọn. Chat dùng [OpenAI Responses API](https://developers.openai.com/api/docs/guides/text).
+
+```dotenv
+OPENAI_API_KEY=
+OPENAI_MODEL=gpt-4.1-mini
+```
+
+Đăng nhập bằng tài khoản đã hoàn tất hồ sơ, mở Tổng quan và bấm gấu trúc ở góc dưới bên phải. Chọn **Cách tạo ngân sách?** hoặc nhập câu hỏi về một chức năng của LÁ rồi bấm **Gửi**. Kéo gấu trúc để đổi chỗ, dùng **Đặt lại vị trí** để về góc mặc định. Nút **Thu gọn** và phím Esc cất khung chat. Cuộc trò chuyện giữ trong cùng tab và tài khoản khi chuyển trang.
+
+Backend phân loại câu hỏi tại chỗ và gửi câu hỏi mẫu cùng hướng dẫn của LÁ cho chủ đề nhận diện được. Chủ đề chưa rõ sẽ được hỏi lại ngay trong ứng dụng. Nhà cung cấp nhận phần hướng dẫn cố định cho từng lượt. Giới hạn là 6 lượt mỗi phút và 60 lượt trong 24 giờ theo tài khoản, thêm giới hạn 30 lượt mỗi phút theo IP. Các bộ đếm nằm trong tiến trình Node.js. Tính năng dùng phiên đăng nhập hiện có và không cần migration.
+
 Không cần Apache để chạy Node. Chỉ bật Apache nếu dùng phpMyAdmin. Nếu dùng `127.0.0.1` thay cho `localhost`, đặt cả `APP_BASE_URL` và `FRONTEND_ORIGIN` tương ứng để Origin và cookie thống nhất.
 
 ## Import SQL và giữ dữ liệu

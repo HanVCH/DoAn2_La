@@ -15,6 +15,7 @@ export function createAppPagesRouter({db,config}) {
     const navigation = Object.fromEntries(pages.map(item=>[item.id,item.path]));
     response.set({'Cache-Control':'no-store','Referrer-Policy':'same-origin','X-Content-Type-Options':'nosniff'}).render('app-layout',{
       page,pages,navigation,state,displayName,initial:[...displayName.trim()][0]?.toLocaleUpperCase('vi-VN') || 'L',supportEmail:config.supportEmail,categoryIcons,
+      supportAccount:request.authUser.id,
     });
   });
   router.use((error,request,response,next)=>{

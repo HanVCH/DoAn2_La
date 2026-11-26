@@ -8,7 +8,7 @@ import { openDatabase } from '../../BackEnd/db/database.js';
 import { initializeSchema } from '../../BackEnd/db/schema-tools.js';
 import { createMailer } from '../../BackEnd/services/mailer.js';
 
-export async function startFixture({ port = 0, smsAvailable = false, resendAvailable = false } = {}) {
+export async function startFixture({ port = 0, smsAvailable = false, resendAvailable = false, supportFetch } = {}) {
   if (!process.env.TEST_DB_PORT) throw new Error('Dùng npm run test:backend hoặc npm run test:browser để khởi động MySQL test riêng.');
   const database = `la_test_${randomBytes(8).toString('hex')}`;
   const settings = { host: process.env.TEST_DB_HOST, port: Number(process.env.TEST_DB_PORT), user: process.env.TEST_DB_USER, password: process.env.TEST_DB_PASSWORD, database };
@@ -53,7 +53,7 @@ export async function startFixture({ port = 0, smsAvailable = false, resendAvail
   config.appBaseUrl = config.frontendOrigin = `http://127.0.0.1:${port}`;
   const smsMessages = [], smsState = { reject: false };
   const sms = { ready: smsAvailable, async sendOtp(destination,otp) { if (smsState.reject) throw new Error('Test SMS rejection'); smsMessages.push({destination,otp}); } };
-  const app = createApp({ config, db, mailer, sms });
+  const app = createApp({ config, db, mailer, sms, supportFetch });
   const server = await new Promise(resolve => { const listener = app.listen(port, '127.0.0.1', () => resolve(listener)); });
   async function close() {
     await new Promise(resolve => server.close(resolve));

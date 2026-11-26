@@ -91,6 +91,7 @@ logoutButton.addEventListener('click',async()=>{
   try {
     const response=await fetch('/api/auth/logout',{method:'POST',credentials:'include',cache:'no-store',headers:csrfHeaders(),body:'{}',signal:AbortSignal.timeout(15000)});
     if(!response.ok && response.status!==401)throw new Error('LOGOUT_FAILED');
+    document.dispatchEvent(new Event('la:logout'));
     root.hidden=true;root.inert=true;document.querySelectorAll('[data-user-name],[data-user-initial]').forEach(node=>{node.textContent='';});
     window.location.replace('/login');
   } catch {

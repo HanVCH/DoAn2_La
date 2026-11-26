@@ -27,6 +27,7 @@ export function readConfig(env = process.env) {
     otpPepper: env.OTP_PEPPER || '',
     otpEmailProvider: env.OTP_EMAIL_PROVIDER || 'smtp',
     resend: { apiKey: env.RESEND_API_KEY || '', from: env.RESEND_FROM || '' },
+    supportAi: { apiKey: env.OPENAI_API_KEY?.trim() || '', model: env.OPENAI_MODEL?.trim() || 'gpt-4.1-mini' },
     sms: { enabled: env.SMS_ENABLED === 'true', accountSid: env.SMS_TWILIO_ACCOUNT_SID || '', authToken: env.SMS_TWILIO_AUTH_TOKEN || '', from: env.SMS_TWILIO_FROM || '' },
     cookieSecure: production || env.COOKIE_SECURE === 'true' || appBaseUrl.startsWith('https:') || frontendOrigin.startsWith('https:'),
     externalAuth: Boolean(env.AUTH_REGISTER_URL || env.AUTH_LOGIN_URL),
