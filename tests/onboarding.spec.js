@@ -11,6 +11,7 @@ async function login(page,email){
   await page.goto('/login');await page.locator('#email').fill(email);await page.locator('#submit-button').click();await expect(page.locator('#password-step')).toBeVisible();await page.locator('#password').fill(password);await page.locator('#submit-button').click();
 }
 async function fillProfile(page){
+  await expect(page.locator('#save-profile')).toBeEnabled();
   await page.locator('#fullName').fill('Nguyễn Minh Anh');await page.locator('#birthDate').fill('15/05/01');await page.locator('#hometown').fill('Đà Nẵng');await page.locator('#monthlyIncome').fill('0');await page.locator('#usagePurpose').selectOption('other');await page.locator('#usagePurposeNote').fill('Dành dụm cho chuyến đi đầu tiên');
 }
 async function mails(request,email){return(await request.get('/__test/mail?to='+encodeURIComponent(email))).json();}
@@ -22,6 +23,28 @@ async function verifyEmail(page,request,email){
   await expect(page.locator('h1')).toHaveText('Email đã xác thực');
   await page.goto('/onboarding');
 }
+
+test('return to login signs out from an empty or partially filled profile without submitting it',async({page})=>{
+  const email='onboarding-return@test.com';
+  await createAccount(page,email,'0906000009');
+  await login(page,email);
+  const profileWrites=[];
+  page.on('request',request=>{
+    if (request.method()!=='GET' && /\/api\/onboarding\/(profile|complete)$/.test(request.url())) profileWrites.push(request.url());
+  });
+  for (const name of ['', 'Tên chưa lưu']) {
+    await expect(page.locator('#save-profile')).toBeEnabled();
+    await expect(page.locator('#fullName')).toHaveValue('');
+    if (name) await page.locator('#fullName').fill(name);
+    await page.getByRole('button',{name:'Quay về đăng nhập',exact:true}).click();
+    await expect(page).toHaveURL(/\/login$/);
+    expect((await page.request.get('/api/auth/me')).status()).toBe(401);
+    await login(page,email);
+    await expect(page).toHaveURL(/\/onboarding$/);
+  }
+  await expect(page.locator('#fullName')).toHaveValue('');
+  expect(profileWrites).toEqual([]);
+});
 
 test('complete setup saves profile, resumes OTP after reload, enters home and skips setup on later login',async({page,request})=>{
   const email='onboarding-complete@test.com';await createAccount(page,email,'0906000001');await login(page,email);await expect(page).toHaveURL(/\/onboarding$/);

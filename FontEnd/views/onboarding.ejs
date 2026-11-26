@@ -31,7 +31,7 @@
           <div class="section-heading"><span class="step-number">01</span><div><h2 id="profile-title">Một chút về bạn</h2><p>Các trường dưới đây đều cần thiết để hoàn tất.</p></div></div>
           <form id="profile-form" novalidate>
             <%- include('partials/profile-fields') %>
-            <button class="button save-button" type="submit" id="save-profile">Lưu thông tin</button>
+            <button class="button save-button" type="submit" id="save-profile" disabled>Lưu thông tin</button>
             <p class="saved-note" id="saved-note" role="status" hidden>Thông tin của bạn đã được lưu.</p>
           </form>
         </section>
@@ -52,7 +52,12 @@
             <p id="otp-expiry" class="field-hint"></p><p id="otp-error" class="field-error" hidden></p>
           </form>
         </section>
-        <div class="finish-section"><p id="completion-hint">Lưu hồ sơ và xác thực một kênh liên hệ trước khi hoàn tất.</p><p id="completion-status" class="form-status" role="status" aria-live="polite" tabindex="-1" hidden></p><button class="button primary-button" type="button" id="complete-onboarding" aria-describedby="completion-hint completion-status" disabled>Hoàn tất và vào trang chủ <span aria-hidden="true">↗</span></button></div>
+        <div class="finish-section">
+          <p id="completion-hint">Lưu hồ sơ và xác thực một kênh liên hệ trước khi hoàn tất.</p>
+          <p id="completion-status" class="form-status" role="status" aria-live="polite" tabindex="-1" hidden></p>
+          <button class="button primary-button" type="button" id="complete-onboarding" aria-describedby="completion-hint completion-status" disabled>Hoàn tất và vào trang chủ <span aria-hidden="true">↗</span></button>
+          <button class="button login-button" type="button" id="return-to-login" disabled>Quay về đăng nhập</button>
+        </div>
       </section>
     </main>
     <footer class="page-footer">LÁ · CHĂM VÍ NHỎ, NUÔI NGÀY MAI</footer>

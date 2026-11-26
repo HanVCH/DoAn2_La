@@ -165,7 +165,17 @@ completeButton.addEventListener('click',()=>{
     } catch(error){showCompletionStatus(error.message || 'Chưa thể hoàn tất thiết lập. Vui lòng thử lại.');throw error;}
   });
 });
-document.querySelector('#logout-button').addEventListener('click',event=>perform(event.currentTarget,'Đang đăng xuất…',async()=>{await request('/api/auth/logout','POST',{});window.location.assign('/login');}));
+function returnToLogin(event) {
+  if (busy.size) return;
+  perform(event.currentTarget,'Đang đăng xuất…',async()=>{
+    await request('/api/auth/logout','POST',{});
+    window.location.assign('/login');
+  });
+}
+document.querySelector('#logout-button').addEventListener('click',returnToLogin);
+const returnButton = document.querySelector('#return-to-login');
+returnButton.addEventListener('click',returnToLogin);
+returnButton.disabled = false;
 for(const input of form.querySelectorAll('input'))input.readOnly=true;
 form.elements.usagePurpose.disabled=true;saveButton.disabled=true;sendButton.disabled=true;
 showStatus('Đang tải thông tin của bạn…','info');
